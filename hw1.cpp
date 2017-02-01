@@ -72,6 +72,10 @@ struct Particle {
 
 struct Game {
 	Shape box;
+	Shape box1;
+	Shape box2;
+	Shape box3;
+	Shape box4;
 	Particle particle[MAX_PARTICLES];
 	int n;
 	Game() {n=0;}
@@ -102,6 +106,15 @@ int main(void)
 	game.box.height = 10;
 	game.box.center.x = 120 + 5*65;
 	game.box.center.y = 500 - 5*60;
+	game.box1.width = 100;
+	game.box1.height = 10;
+	game.box1.center.x = 120 + 5*15;
+	game.box1.center.y = 500 - 5*12;
+	game.box2.width = 100;
+	game.box2.height = 10;
+	game.box2.center.x = 120 + 5*28;
+	game.box2.center.y = 500 - 5*25;
+	game.box3.cheight = 100;
 
 	//start animation
 	while (!done) {
@@ -259,6 +272,7 @@ void movement(Game *game)
 		Shape *s;
 		s = &game->box;
 		if (p->s.center.y < s->center.y + s->height &&
+			p->s.center.y > s->center.y - s->height &&
 			p->s.center.x >= s->center.x - s->width &&
 			p->s.center.x <= s->center.x + s->width){
 	    	p->velocity.y = -p->velocity.y * 0.8f;
@@ -296,20 +310,51 @@ void render(Game *game)
 	glEnd();
 	glPopMatrix();
 
+        Shape *t;
+        glColor3ub(90,140,90);
+        t = &game->box1;
+        glPushMatrix();
+        glTranslatef(t->center.x, t->center.y, t->center.z);
+        w = t->width;
+        h = t->height;
+        glBegin(GL_QUADS);
+                glVertex2i(-w,-h);
+                glVertex2i(-w, h);
+                glVertex2i( w, h);
+                glVertex2i( w,-h);
+        glEnd();
+        glPopMatrix();
+
+	Shape *u;
+        glColor3ub(90,140,90);
+        u = &game->box2;
+        glPushMatrix();
+        glTranslatef(u->center.x, u->center.y, u->center.z);
+        w = u->width;
+        h = u->height;
+        glBegin(GL_QUADS);
+                glVertex2i(-w,-h);
+                glVertex2i(-w, h);
+                glVertex2i( w, h);
+                glVertex2i( w,-h);
+        glEnd();
+        glPopMatrix();
+
+
 	//draw all particles here
 	for(int i=0; i<game->n; i++){
-	glPushMatrix();
-	glColor3ub(150,160,220);
-	Vec *c = &game->particle[i].s.center;
-	w = 2;
-	h = 2;
-	glBegin(GL_QUADS);
-		glVertex2i(c->x-w, c->y-h);
-		glVertex2i(c->x-w, c->y+h);
-		glVertex2i(c->x+w, c->y+h);
-		glVertex2i(c->x+w, c->y-h);
-	glEnd();
-	glPopMatrix();
+		glPushMatrix();
+		glColor3ub(150,160,220);
+		Vec *c = &game->particle[i].s.center;
+		w = 2;
+		h = 2;
+		glBegin(GL_QUADS);
+			glVertex2i(c->x-w, c->y-h);
+			glVertex2i(c->x-w, c->y+h);
+			glVertex2i(c->x+w, c->y+h);
+			glVertex2i(c->x+w, c->y-h);
+		glEnd();
+		glPopMatrix();
 	}
 }
 
