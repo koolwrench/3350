@@ -40,6 +40,8 @@
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
 #include <GL/glx.h>
+#include "fonts.h"
+#include "log.h"
 
 #define WINDOW_WIDTH  800
 #define WINDOW_HEIGHT 600
@@ -382,6 +384,13 @@ void render(Game *game)
 		glVertex2i( w,-h);
 	glEnd();
 	glPopMatrix();
+
+	Rect r;
+	r.bot = WINDOW_HEIGHT/2.0;
+	r.left = 10;
+	r.center = 0;
+	unsigned int color = 0x00dddd00;
+	ggprint8b(&r, 16, color, "Requirements");
 
         Shape *t;
         glColor3ub(90,140,90);
